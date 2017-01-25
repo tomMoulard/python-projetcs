@@ -49,7 +49,7 @@ def largeur(x, G, marque):
 
 #exo 5
 def _rec(G, x, marque, distance):
-  distance ++
+  distance += 1
   marque[x] = max(distance, marque[x])
   f = Queue()
   f = enqueue(x, f)
@@ -58,7 +58,7 @@ def _rec(G, x, marque, distance):
   while not isEmpty(f):
     y = dequeue(f)
     if y = None:
-      toAdd ++
+      toAdd += 1
       if not isEmpty(f):
         f = enqueue(None, f)
     else:
