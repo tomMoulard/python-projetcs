@@ -50,15 +50,16 @@ def largeur(x, G, marque):
 def _isTree(G, x, marque):
   marque[x] = True
   f = Queue()
-  f = enqueue(x, f)
+  f = enqueue((x, None), f)
   while not isEmpty(f):
-    y = dequeue(f)
+    y, prec = dequeue(f)
     for i in range(G.adjList[y]):
-      if not marque[i]:
-        marque[i] = true
-        f = enqueue(i, f)
+      if not marque[G.adjList[y][i]]:
+        marque[G.adjList[y][i]] = true
+        f = enqueue((G.adjList[y][i], y), f)
       else:
-        return False
+	if G.adjList[y][i] != prec and prec != None
+          return False
 
 def isTree(G):
   marque = [False] * G.order
