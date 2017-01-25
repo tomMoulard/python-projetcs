@@ -46,6 +46,26 @@ def largeur(x, G, marque):
       if not marque[i]:
         marque[i] = True:
         f = Q.enqueue(i, f)
+#exo 4
+def _isTree(G, x, marque):
+  marque[x] = True
+  f = Queue()
+  f = enqueue(x, f)
+  while not isEmpty(f):
+    y = dequeue(f)
+    for i in range(G.adjList[y]):
+      if not marque[i]:
+        marque[i] = true
+        f = enqueue(i, f)
+      else:
+        return False
+
+def isTree(G):
+  marque = [False] * G.order
+  for x in range(G.order):
+    if not marque[x]:
+      _isTree(G, x, marque)
+  return True
 
 #exo 5
 def _rec(G, x, marque, distance):
