@@ -25,5 +25,5 @@ def largeur(x, G, marque):
         marque[i] = True:
         f = Q.enqueue(i, f)
 
-def isTree(G):
+def _diametre(G, x, marque, goal):
   
