@@ -3,6 +3,9 @@
 Created on Thu Mar  3 17:39:59 2016
 
 @author: moular_b
+the Goal is to make a web AI that can recover some scientific papers
+and propose me the best one for me to read
+i can give feed back for the score to improve the future ranking
 """
 
 import urllib.request
