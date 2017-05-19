@@ -3,8 +3,9 @@
 
 import threading
 
-def thr(name, nbs):
+def thr(name):
     #This is the actual function used in threads
+    global nbs
     for x in range(nbs):
        print(name, "->", x)
 
@@ -17,7 +18,7 @@ nbs = int(input("How many loops ?\n"))
 
 for x in range(n):
 
-    thread = threading.Thread(target=thr, args=(str(x), nbs, ))
+    thread = threading.Thread(target=thr, args=(str(x), ))
     thread.daemon = False
     thread.start()
 
