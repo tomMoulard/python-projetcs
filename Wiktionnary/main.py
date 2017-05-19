@@ -3,80 +3,103 @@
 Created on Tue Mar 14 23:07:26 2017
 
 @author: tm
+Main Goal: Parce a wikipedia page to get all words in it and their links to theirs page.
+After we need to go on each pages and get all the data possible
 """
 
-#to get the http responce for files
+#To get the http response for files
 import urllib.request
 opener = urllib.request.FancyURLopener({})
 
-#to get users imput
+#To get users imput
 import sys
 
 #To get full lenght urls
 prefix = "https://fr.wiktionary.org/wiki/"
 
-#to edit xlsx files
+#To edit xlsx files
 import xlsxwriter
 
+#To parse all pages
+from bs4 import BeautifulSoup
 
-def getResponceVerbe(url) : 
+def prettyPrintForList(l):
     """
-    To parse the responce about a "Verbe" word
+    This is a function to do some pretty print for list
+    """
+    for x in l:
+        print(x)
+
+def getResponceVerbe(url) :
+    """
+    To parse the response about a "Verbe" word
     use : provide a good link to get the right type ("Verbe") of word
+    format: [[headlines, "", content]]
+    like: [[h1, h2, h3, "", c1, c2, c3]]
     """
     res = []
-    responce = str(opener.open(url).read())
-    ll, pos = len(responce), 0
-    while pos < ll:
-        pos += 1
-    return res;
+    # response = str(opener.open(url).read())
+    # ll, pos = len(response), 0
+    # while pos < ll:
+    #     pos += 1
+    print("Getting data from {}".format(url))
+    site = str(opener.open(url).read())
+    soup = BeautifulSoup(site, "html5lib")
+    content = soup.find(id="mw-content-text")
+    headlines = content.select("span.mw-headline")
+    for headline in headlines:
+        res.append(headline.text)
+    res.append("")
 
-def getResponceNoms(url) : 
+
+    return res
+
+def getResponceNoms(url) :
     """
-    To parse the responce about a "Noms" word
+        To parse the response about a "Noms" word
     use : provide a good link to get the right type ("Noms") of word
     """
     res = []
-    responce = str(opener.open(url).read())
-    ll, pos = len(responce), 0
-    while pos < ll:
-        pos += 1
+    # response = str(opener.open(url).read())
+    # ll, pos = len(response), 0
+    # while pos < ll:
+    #     pos += 1
     return res;
 
-def getResponceAdjectifs(url) : 
+def getResponceAdjectifs(url) :
     """
-    To parse the responce about a "Adjectif" word
+    To parse the response about a "Adjectif" word
     use : provide a good link to get the right type ("Adjectif") of word
     """
     res = []
-    responce = str(opener.open(url).read())
-    ll, pos = len(responce), 0
-    while pos < ll:
-        pos += 1
+    # response = str(opener.open(url).read())
+    # ll, pos = len(response), 0
+    # while pos < ll:
+    #     pos += 1
     return res;
 
-def getResponceAdverbes(url) : 
+def getResponceAdverbes(url) :
     """
-    To parse the responce about a "Adverbe" word
+    To parse the response about a "Adverbe" word
     use : provide a good link to get the right type ("Adverbe") of word
     """
     res = []
-    responce = str(opener.open(url).read())
-    ll, pos = len(responce), 0
-    while pos < ll:
-        pos += 1
+    # response = str(opener.open(url).read())
+    # ll, pos = len(response), 0
+    # while pos < ll:
+    #     pos += 1
     return res;
 
-def getResponcePrepositions(url) : 
+def getResponcePrepositions(url) :
     """
-    To parse the responce about a "Préposition" word
+    To parse the response about a "Préposition" word
     use : provide a good link to get the right type ("Préposition") of word
     """
     res = []
-    responce = str(opener.open(url).read())
-    ll, pos = len(responce), 0
-    while pos < ll:
-        pos += 1
+    # response = str(opener.open(url).read())
+    # ll, pos = len(response), 0
+    # while pos < ll:
+    #     pos += 1
     return res;
 
 
@@ -90,69 +113,86 @@ def main():
     else:
         url      = sys.argv[1]
         file     = sys.argv[2]
-        responce = str(opener.open(url).read())
-        #print(responce)
+        response = str(opener.open(url).read())
+        #print(response)
         print("Main Responce get")
         #curl link
         urls = []
         pos  = 0
-        ll   = len(responce)
+        ll   = len(response)
         tag  = "Noms"
         while pos < ll - 6:
-            if responce[pos:pos + 6] == "/wiki/" and \
-            (responce[pos + 6] != "w" and responce[pos + 7] != "i"):
+            if response[pos:pos + 6] == "/wiki/" and \
+            (response[pos + 6] != "w" and response[pos + 7] != "i"):
                 pos += 6
                 link = prefix
-                while pos < ll and responce[pos] != "\"":
-                    link += responce[pos]
+                while pos < ll and response[pos] != "\"":
+                    link += response[pos]
                     pos  += 1
                 pos += 9
                 title = ""
-                while pos < ll and responce[pos] != "\"":
-                    title += responce[pos]
+                while pos < ll and response[pos] != "\"":
+                    title += response[pos]
                     pos += 1
                 #print(title, ": ", tag)
                 urls.append((title ,link, tag, []))
-            if responce[pos:pos + 5] == "Verbe":
+            # The next part is to define the tag for next words
+            if response[pos:pos + 5] == "Verbe":
                 tag = "Verbe"
-            if responce[pos:pos + 4] == "Noms":
+            if response[pos:pos + 4] == "Noms":
                 tag = "Noms"
-            if responce[pos:pos + 9] == "Adjectifs":
+            if response[pos:pos + 9] == "Adjectifs":
                 tag = "Adjectifs"
-            if responce[pos:pos + 8] == "Adverbes":
+            if response[pos:pos + 8] == "Adverbes":
                 tag = "Adverbes"
-            if responce[pos:pos + 19] == "Pr\xc3\xa9positions":
+            if response[pos:pos + 19] == "Pr\xc3\xa9positions":
                 tag = "Prépositions"
                 print("Pr\xc3\xa9positions")
             pos += 1
-        print("links get")
-        for x in range(len(urls) - 15):
-            if x % 10 == 0:
-                print("Got responce for", x, "words.")
-            if urls[x][2] == "verbe":
-                pass
-                #urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceVerbe(urls[x][1]))
-            elif urls[x][2] == "Noms":
-                pass
-                #urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceNoms(urls[x][1]))
-            elif urls[x][2] == "Adjectifs":
-                pass
-                #urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceAdjectifs(urls[x][1]))
-            elif urls[x][2] == "Adverbes":
-                pass
-                #urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceAdverbes(urls[x][1]))
-            elif urls[x][2] == "Prépositions":
-                pass
-                #urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponcePrepositions(urls[x][1]))
-            else:
-                print("error:", x, urls[x])
-        print("Got result for files")
-        #just for fun making it in the file :3
+        #just for fun making it in the file
+        urls = urls[:-15]
         #opening the file :
+        print("Writting links to {}".format(file))
         workbook  = xlsxwriter.Workbook(file)
         worksheet = workbook.add_worksheet()
         bold = workbook.add_format({'bold': True})
-        for x in range(len(urls) - 15):
+        for x in range(len(urls)):
+            worksheet.write(x, 0, urls[x][0]) #TITLE
+            worksheet.write(x, 1, urls[x][1]) #LINK
+            worksheet.write(x, 2, urls[x][2]) #TAG
+        workbook.close()
+        print("File Closed")
+
+        n = input("Do you want to get the whole data ? [Y/n]")
+        if n == "n":
+            exit(0)
+        #Lets get all the data
+        #open all page and parse the output to get the data
+        for x in range(len(urls)):
+            if x % 10 == 0:
+                print("Got response for", x, "words.")
+            if urls[x][2] == "verbe":
+                print("supposed to be {} but is really ->".format("verbe"), [urls[x][2]], "verbe" == urls[x][2])
+                urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceVerbe(urls[x][1]))
+            elif urls[x][2] == "Noms":
+                print("supposed to be {} but is really ->".format("Noms"), [urls[x][2]], "Noms" == urls[x][2])
+                urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceNoms(urls[x][1]))
+            elif urls[x][2] == "Adjectifs":
+                print("supposed to be {} but is really ->".format("Adjectifs"), [urls[x][2]], "Adjectifs" == urls[x][2])
+                urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceAdjectifs(urls[x][1]))
+            elif urls[x][2] == "Adverbes":
+                print("supposed to be {} but is really ->".format("Adverbes"), [urls[x][2]], "Adverbes" == urls[x][2])
+                urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceAdverbes(urls[x][1]))
+            else:
+                print("supposed to be {} but is really ->".format("else"), [urls[x][2]], "else" == urls[x][2])
+                #getResponcePrepositions
+                urls[x] = (urls[x][0], urls[x][1], urls[x][2], getResponceVerbe(urls[x][1]))
+        #write the output to xlsx
+        print("Writting data to {}".format(file))
+        workbook  = xlsxwriter.Workbook(file)
+        worksheet = workbook.add_worksheet()
+        bold = workbook.add_format({'bold': True})
+        for x in range(len(urls)):
             worksheet.write(x, 0, urls[x][0]) #TITLE
             worksheet.write(x, 1, urls[x][1]) #LINK
             worksheet.write(x, 2, urls[x][2]) #TAG
@@ -160,11 +200,6 @@ def main():
                 worksheet.write(x, y + 3, urls[x][3][y]) #STUFF
         workbook.close()
         print("File Closed")
-        #parse responce to get all words links and store them in a list stored in a separated file
-        #for each link get the http responce to get responce 
-        #make an array of object with the world + definitions
-        #store then in the xlsx file
-
 
 if __name__ == '__main__':
     main()
