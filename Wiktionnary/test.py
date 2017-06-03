@@ -1,3 +1,4 @@
+url = "https://fr.wiktionary.org/wiki/pantalon"
 
 
 import urllib.request

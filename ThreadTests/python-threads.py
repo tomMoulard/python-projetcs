@@ -15,13 +15,14 @@ n = int(input("How many threads ?\n"))
 # n = 42000
 nbs = int(input("How many loops ?\n"))
 # nbs = 42000
+try:
+    for x in range(n):
 
-for x in range(n):
+        thread = threading.Thread(target=thr, args=(str(x), ))
+        thread.daemon = False
+        thread.start()
 
-    thread = threading.Thread(target=thr, args=(str(x), ))
-    thread.daemon = False
-    thread.start()
-
-    threads.append(thread)
-
+        threads.append(thread)
+except:
+    print("failed")
 print(threads)
