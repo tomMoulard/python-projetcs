@@ -45,14 +45,13 @@ def getResponceVerbe(url) :
     posIntymo   = 0
     ymo         = soup.find_all("dl")
     posInOl     = 0
-    ol          =soup.find_all("ol")
+    ol          = soup.find_all("ol")
     posInUl     = 0
-    ul          =soup.find_all("ul")
-    dl          =soup.find_all("dl")
+    ul          = soup.find_all("ul")
+    dl          = soup.find_all("dl")
     posInBoite  = 0
     boite       = soup.find_all("div", class_="boite")
-
-    headlines = soup.select("span.mw-headline")
+    headlines   = soup.select("span.mw-headline")
     for headline in headlines:
         res.append(headline.text)
         if headline.text == "\\xc3\\x89tymologie":
@@ -81,8 +80,10 @@ def getResponceVerbe(url) :
             res.append(str(ul[posInUl]))
             posInUl += 1
         elif headline.text == "Synonymes":
+            tmp = ""
             for x in dl:
-                res.append(str(x))
+                tmp += str(x)
+            res.append(tmp)
         else:
             pass
     return res
