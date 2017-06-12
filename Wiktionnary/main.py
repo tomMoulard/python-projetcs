@@ -44,12 +44,12 @@ def getResponceVerbe(url) :
     # headlines = content.select("span.mw-headline")
     posIntymo   = 0
     ymo         = soup.find_all("dl")
-    posInOl     = 0
+    posInol     = 0
     ol          = soup.find_all("ol")
-    posInUl     = 0
+    posInul     = 0
     ul          = soup.find_all("ul")
     dl          = soup.find_all("dl")
-    posInBoite  = 0
+    posInboite  = 0
     boite       = soup.find_all("div", class_="boite")
     headlines   = soup.select("span.mw-headline")
     for headline in headlines:
@@ -58,27 +58,27 @@ def getResponceVerbe(url) :
             res.append(str(ymo[posIntymo]))
             posIntymo += 1
         elif headline.text == "Verbe":
-            res.append(str(ol[posInOl]))
-            posInOl += 1
+            res.append(str(ol[posInol]))
+            posInol += 1
         elif headline.text == "D\\xc3\\xa9riv\\xc3\\xa9s":
-            res.append(str(boite[posInBoite]))
-            posInBoite += 1
+            res.append(str(boite[posInboite]))
+            posInboite += 1
         elif headline.text == "Traductions" or\
             headline.text == "Traductions \\xc3\\xa0 trier":
-            res.append(str(boite[posInBoite]))
-            posInBoite += 1
+            res.append(str(boite[posInboite]))
+            posInboite += 1
         elif headline.text == "Prononciation":
-            res.append(str(ul[posInUl]))
-            posInUl += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "Anagrammes":
-            res.append(str(ul[posInUl]))
-            posInUl += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "R\\xc3\\xa9f\\xc3\\xa9rences":
-            res.append(str(ul[posInUl]))
-            posInUl += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "Variantes":
-            res.append(str(ul[posInUl]))
-            posInUl += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "Synonymes":
             tmp = ""
             for x in dl:
