@@ -37,21 +37,54 @@ def getResponceVerbe(url) :
     format: [[headlines, "", content]]
     like: [[h1, h2, h3, "", c1, c2, c3]]
     """
-    res = []
-    # response = str(opener.open(url).read())
-    # ll, pos = len(response), 0
-    # while pos < ll:
-    #     pos += 1
-    print("Getting data from {}".format(url))
-    site = str(opener.open(url).read())
-    soup = BeautifulSoup(site, "html5lib")
-    content = soup.find(id="mw-content-text")
-    headlines = content.select("span.mw-headline")
+    res = []print("Getting data from {}".format(url))
+    site        = str(opener.open(url).read())
+    soup        = BeautifulSoup(site, "html5lib")
+    # content   = soup.find(id="mw-content-text")
+    # headlines = content.select("span.mw-headline")
+    posIntymo   = 0
+    ymo         = soup.find_all("dl")
+    posInOl     = 0
+    ol          =soup.find_all("ol")
+    posInUl     = 0
+    ul          =soup.find_all("ul")
+    dl          =soup.find_all("dl")
+    posInBoite  = 0
+    boite       = soup.find_all("div", class_="boite")
+
+    headlines = soup.select("span.mw-headline")
     for headline in headlines:
         res.append(headline.text)
-    res.append("")
-
-
+        if headline.text == "\\xc3\\x89tymologie":
+            res.append(str(ymo[posIntymo]))
+            posIntymo += 1
+        elif headline.text == "Verbe":
+            res.append(str(ol[posInOl]))
+            posInOl += 1
+        elif headline.text == "D\\xc3\\xa9riv\\xc3\\xa9s":
+            res.append(str(boite[posInBoite]))
+            posInBoite += 1
+        elif headline.text == "Traductions" or\
+            headline.text == "Traductions \\xc3\\xa0 trier":
+            res.append(str(boite[posInBoite]))
+            posInBoite += 1
+        elif headline.text == "Prononciation":
+            res.append(str(ul[posInUl]))
+            posInUl += 1
+        elif headline.text == "Anagrammes":
+            res.append(str(ul[posInUl]))
+            posInUl += 1
+        elif headline.text == "R\\xc3\\xa9f\\xc3\\xa9rences":
+            res.append(str(ul[posInUl]))
+            posInUl += 1
+        elif headline.text == "Variantes":
+            res.append(str(ul[posInUl]))
+            posInUl += 1
+        elif headline.text == "Synonymes":
+            for x in dl:
+                res.append(str(x))
+        else:
+            pass
     return res
 
 def getResponceNoms(url) :
@@ -135,6 +168,7 @@ def main():
                     title += response[pos]
                     pos += 1
                 #print(title, ": ", tag)
+                
                 urls.append((title ,link, tag, []))
             # The next part is to define the tag for next words
             if response[pos:pos + 5] == "Verbe":
