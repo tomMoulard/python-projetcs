@@ -34,8 +34,6 @@ def getResponceVerbe(url) :
     """
     To parse the response about a "Verbe" word
     use : provide a good link to get the right type ("Verbe") of word
-    format: [[headlines, "", content]]
-    like: [[h1, h2, h3, "", c1, c2, c3]]
     """
     print("Getting data from {}".format(url))
     res         = []
@@ -91,11 +89,11 @@ def getResponceVerbe(url) :
 
 def getResponceNoms(url) :
     """
-        To parse the response about a "Noms" word
+    To parse the response about a "Noms" word
     use : provide a good link to get the right type ("Noms") of word
     """
     print("Getting data from {}".format(url))
-    res          = []
+    res = []
     site         = str(opener.open(url).read())
     soup         = BeautifulSoup(site, "html5lib")
     # content    = soup.find(id="mw-content-text")
@@ -116,8 +114,8 @@ def getResponceNoms(url) :
     for headline in headlines:
         res.append(headline.text)
         if headline.text == "\\xc3\\x89tymologie":
-            res.append(str(dl[posIntdl]))
-            posIntdl += 1
+            res.append(str(dl[posIndl]))
+            posIndl += 1
         elif headline.text == "Nom commun":
             tmp = ""
             for table in tableNC:
@@ -125,48 +123,47 @@ def getResponceNoms(url) :
             tmp     +=  str(ol[posInol])
             posInol += 1
             res.append(tmp)
-        res.append(headline.text)
         elif headline.text == "Note":
-            res.append(str(ul[posIntul]))
-            posIntul += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "D\\xc3\\xa9riv\\xc3\\xa9s":
-            res.append(str(boite[posIntboite]))
-            posIntboite += 1
+            res.append(str(boite[posInboite]))
+            posInboite += 1
         elif headline.text == "Expressions":
-            res.append(str(ul[posIntul]))
-            posIntul += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "Vocabulaire apparent\\xc3\\xa9 par le sens":
-            res.append(str(ul[posIntul]))
-            posIntul += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "Hyponymes":
-            res.append(str(ul[posIntul]))
-            posIntul += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "M\\xc3\\xa9ronymes":
-            res.append(str(ul[posIntul]))
-            posIntul += 1
+            res.append(str(ul[posInul]))
+            posInul += 1
         elif headline.text == "Traductions":
-            res.append(str(boite[posIntboite]))
-            posIntboite += 1
+            res.append(str(boite[posInboite]))
+            posInboite += 1
         elif headline.text == "Forme de verbe":
             tmp = ""
-            for x in soup.find_all("table", class_="flextable")
+            for x in soup.find_all("table", class_="flextable"):
                 tmp += str(x)
             res.append(tmp)
         elif headline.text == "Prononciation":
-            tmp = str(ol[posIntol])
-            posIntol += 1
-            tmp += str(ul[posIntul])
+            tmp = str(ol[posInol])
+            posInol += 1
+            tmp += str(ul[posInul])
             res.append(tmp)
-            posIntul += 1
+            posInul += 1
         elif headline.text == "Anagrammes":
-            tmp = str(ul[posIntul])
-            posIntul += 1
+            tmp = str(ul[posInul])
+            posInul += 1
         elif headline.text == "Voir aussi":
-            tmp = str(ul[posIntul])
-            posIntul += 1
+            tmp = str(ul[posInul])
+            posInul += 1
         elif headline.text == "R\\xc3\\xa9f\\xc3\\xa9rences":
-            tmp = str(ul[posIntul])
-            posIntul += 1
+            tmp = str(ul[posInul])
+            posInul += 1
         else:
             pass
     return res;
