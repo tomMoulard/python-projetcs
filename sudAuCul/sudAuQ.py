@@ -219,7 +219,7 @@ def main(nb):
         then ask the user if he wants to play
         and makes him play of he want to
     """
-    random.seed(str([x for x in time.gmtime()[:5]]))
+    random.seed(str([x for x in time.gmtime()[:4]]))
     res = generateGrid()
     hollow = cpyTable(res)
     for diff in range(int(nb * random.random())):
