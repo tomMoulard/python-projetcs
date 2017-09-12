@@ -1,6 +1,0 @@
-to use : 
-	clean     : *.bin
-	type      : "python3 mots_2D.py $1" with $1 == a list of words
-	then type : "python3 mots_2D_2.py"
-	and let the magic append :3
-	
