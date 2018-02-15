@@ -90,3 +90,5 @@ ENV/
 
 #XLSX stuff
 .~lock.output.xlsx#
+
+*.srt
