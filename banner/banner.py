@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+Created on Wen Fev 9 2018
+
+@author: tomMoulard
+"""
 
 import sys
 
@@ -211,12 +216,12 @@ Z = [
 " ######",
 ]
 SPACE = [
-" ",
-" ",
-" ",
-" ",
-" ",
-" ",
+"  ",
+"  ",
+"  ",
+"  ",
+"  ",
+"  ",
 ]
 
 def l2b(l):
