@@ -1,10 +1,9 @@
 #python3
 #made by moular_b
-<<<<<<< HEAD
+
 import GraphMat, queue, Stack
-=======
+
 #Graph
->>>>>>> be991883b7d4498428b5ca139a1f259288794a0b
 
 ## Salut Tom, tu parles du partiel 2014? Ca ressemble au partiel de cette année.
 ## Je vais commenté le code en précisant la question que je suppose que c'est.
@@ -88,7 +87,6 @@ def _isTree(G, x, marque):
 ## si jamais t'as besoin de faire un nouvel appel tu sais déjà que tu ne 
 ## peux pas être un arbre.
 def isTree(G):
-<<<<<<< HEAD
 	res = []
 	q = Queue()
 	for x in G.adj:
@@ -102,7 +100,6 @@ def isTree(G):
 				res.append(x)
 				q = enqueue(x, q)
 	return True
-=======
   marque = [False] * G.order
   for x in range(G.order):
     if not marque[x]:
@@ -111,25 +108,24 @@ def isTree(G):
 
 def __isTreeDfs(G, x, fathers, size):
     for v in G.adjLists[x]:
-	if not fathers[v]:
-	    fathers[v] = x
-	    return __isTreeDfs(G, v, fathers, size + 1) # size compte le nombre de sommets que je rencontre
-	else:
-	    if v != fathers[x]: 
-		# Je teste si par hasard v (qui est deja visite) ne serait pas le père de x, 
-		# au cas ou je serais en train de remonter mon parcours. 		
-                return(False, size)
+      if not fathers[v]:
+          fathers[v] = x
+          return __isTreeDfs(G, v, fathers, size + 1) # size compte le nombre de sommets que je rencontre
+      else:
+          if v != fathers[x]: 
+      	# Je teste si par hasard v (qui est deja visite) ne serait pas le père de x, 
+      	# au cas ou je serais en train de remonter mon parcours. 		
+                    return(False, size)
     return True, size
 
 def isTreeDfs(G):
-    fathers = []*G.order
-    size = 0
-    
-    tree, size = __isTreeDFS(G, 0, fathers)
-    
-    if not tree and size != G.order: # si jamais je n'ai pas parcouru tous les sommets (plus d'une comp connexe)
-        return(False)
-    else:
+  fathers = []*G.order
+  size = 0
+  
+  tree, size = __isTreeDFS(G, 0, fathers)
+  
+  if not tree and size != G.order: # si jamais je n'ai pas parcouru tous les sommets (plus d'une comp connexe)
+      return(False)
 	return(True)
     
 #exo 5
@@ -173,5 +169,3 @@ def diametre(G):
   S0 = G[0]
   S1 = _diametre(G, S0)[0]
   return _diametre(G, S1)[1] #return S2
-  
->>>>>>> be991883b7d4498428b5ca139a1f259288794a0b
