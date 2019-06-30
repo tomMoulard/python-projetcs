@@ -11,6 +11,10 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
 
+def print_score(score, bound, *args, **kwargs):
+    print(f"\nScore: {score}/{bound}\n", *args, *kwargs)
+
+
 class Answer():
     def __init__(self, string):
         self.string = string[1:]
@@ -63,18 +67,18 @@ class MCQ():
     def play(self):
         for pos in range(len(self.questions)):
             self.score += self.questions[pos].ask()
-            print(f"\nScore: {self.score} / {pos + 1}\n")
+            print_score(self.score, pos + 1)
         return (self.score, len(self.questions))
 
 def main(file):
     with open(file, "r+") as f:
         file_content = f.read()
-        mcq = MCQ(file_content)
-        score = mcq.play()
-        print(f"Score: {score[0]} / {score[1]}")
+        mcq = MCQ(file_content, maximum=1)
+        score, bound = mcq.play()
+        return score != bound
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print(usage)
         raise SystemExit(1)
-    main(sys.argv[1])
+    sys.exit(main(sys.argv[1]))
