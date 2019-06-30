@@ -70,7 +70,7 @@ class MCQ():
 def main(file):
     with open(file, "r+") as f:
         file_content = f.read()
-        mcq = MCQ(file_content, maximum=1)
+        mcq = MCQ(file_content)
         score = mcq.play()
         print(f"Score: {score[0]} / {score[1]}")
 

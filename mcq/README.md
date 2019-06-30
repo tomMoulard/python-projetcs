@@ -8,7 +8,7 @@ mcq.py <mcq file>
 ```
 
 ## MCQ file format
-It is a list of questions to asklike:
+It is a list of questions to ask like:
 ```mcq
 log2(128) =
 -13
