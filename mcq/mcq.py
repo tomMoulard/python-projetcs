@@ -39,10 +39,10 @@ class Question():
         while not self.answer:
             self.answer = input(prompt)
         self.corret = True
-        self.answerss = self.answer.split(',')
+        self.answerss = [int(x) for x in self.answer.split(',')]
         for i in range(len(self.answers)):
-            if i in self.answerss and not self.answers[int(i)].is_true() \
-                or self.answers[int(i)].is_true():
+            if (i in self.answerss and not self.answers[i].is_true()) \
+                or (not i in self.answerss and self.answers[i].is_true()):
                 self.corret = False
                 break;
         if not self.corret:
@@ -59,12 +59,11 @@ class MCQ():
             self.questions.append(Question(q))
         random.shuffle(self.questions)
         self.questions = self.questions[:maximum]
-        # self.questions = [self.questions[-3]]
         self.score = 0
     def play(self):
-        for q in self.questions:
-            self.score += q.ask()
-            print()
+        for pos in range(len(self.questions)):
+            self.score += self.questions[pos].ask()
+            print(f"\nScore: {self.score} / {pos + 1}\n")
         return (self.score, len(self.questions))
 
 def main(file):
