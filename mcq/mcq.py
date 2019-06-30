@@ -14,7 +14,6 @@ class bcolors:
 def print_score(score, bound, *args, **kwargs):
     print(f"\nScore: {score}/{bound}\n", *args, *kwargs)
 
-
 class Answer():
     def __init__(self, string):
         self.string = string[1:]
@@ -73,7 +72,7 @@ class MCQ():
 def main(file):
     with open(file, "r+") as f:
         file_content = f.read()
-        mcq = MCQ(file_content, maximum=1)
+        mcq = MCQ(file_content)
         score, bound = mcq.play()
         return score != bound
 
