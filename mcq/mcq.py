@@ -41,7 +41,6 @@ class Question():
         self.corret = True
         self.answerss = self.answer.split(',')
         for i in range(len(self.answers)):
-            print(f"i: {i}")
             if i in self.answerss and not self.answers[int(i)].is_true() \
                 or self.answers[int(i)].is_true():
                 self.corret = False
@@ -58,9 +57,9 @@ class MCQ():
         self.questions = []
         for q in file_content.split("\n\n"):
             self.questions.append(Question(q))
-        #random.shuffle(self.questions)
-        #self.questions = self.questions[:maximum]
-        self.questions = [self.questions[-3]]
+        random.shuffle(self.questions)
+        self.questions = self.questions[:maximum]
+        # self.questions = [self.questions[-3]]
         self.score = 0
     def play(self):
         for q in self.questions:
