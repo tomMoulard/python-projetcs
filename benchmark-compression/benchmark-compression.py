@@ -36,7 +36,6 @@ class Compression():
         return self.command.format(input_file, self.output_file)
 
     def exe(self):
-        self._execed = True
         if not os.path.isfile(self._input_file):
             raise FileNotFoundError(f"No such file or directory: '{self._input_file}'")
         if self._replace:
@@ -52,6 +51,7 @@ class Compression():
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
+        self._execed = True
         self.return_code = self._process.wait()
         self.stdout, self.stderr = self._process.communicate()
         if self._temp:
@@ -63,11 +63,12 @@ class Compression():
         self.fs = os.path.getsize(self.output_file)
         if self._replace:
             shutil.move(self._input_file+".bak", self._input_file)
+        print(self)
 
     def __str__(self):
         if self._execed:
             c = self.command.split(' ')[0]
-            return f"{c},'{self.output_file}',{self.fs},{self.return_code},"
+            return f"{c},{self.output_file},{self.fs},{self.return_code},"
         return f"The command '{self.format_command(self._input_file)}' has not been run yet"
 
 def generate_compression(input_file):
@@ -83,13 +84,18 @@ def generate_compression(input_file):
                 Compression("zip {1} {0}", input_file, f"{input_file}.zip", False),
             ]
 
-def run(input_file, count):
+def run(input_file, count, thread=False):
     algos = generate_compression(input_file)
     for algo in algos:
-        threading.Thread(algo.exe())
-        print(algo)
+        if thread:
+            thr = threading.Thread(target=algo.exe)
+            thr.start()
+        else:
+            algo.exe()
         if count > 0:
             run(algo.output_file, count-1)
+        if thread:
+            thr.join()
         os.remove(algo.output_file)
 
 def create_parser():
@@ -104,6 +110,7 @@ def main(argv):
     if not args.file:
         raise ValueError("No file provided, see --help")
     print("algo,command,file size,return code")
+    print(f"none,'none',{os.path.getsize(args.file)},0,")
     run(args.file, count=int(args.count))
 
 if __name__ == "__main__":

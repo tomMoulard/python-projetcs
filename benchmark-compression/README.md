@@ -16,6 +16,9 @@ xz,'test.txt.xz',88,0,
 zip,'test.txt.zip',198,0,
 ```
 
+This tool can be used to find out which compression algorithm to use for your file type.
+And if you need to chain algorithms in order to reduce your output file size
+
 ## Usage
 ```bash
 make

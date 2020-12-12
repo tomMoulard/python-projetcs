@@ -1,8 +1,7 @@
 all: run
 
 run:
-	date > test.txt
-	./benchmark-compression.py --file test.txt > data.$(shell date +'%Y-%m-%d-%H-%M-%S').csv
+	./benchmark-compression.py -c 3 --file test.txt > data.$(shell date +'%Y-%m-%d-%H-%M-%S').csv
 
 clean:
 	$(RM) -r test.txt*
