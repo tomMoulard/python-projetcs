@@ -7,6 +7,7 @@ import glob # ls *
 import threading
 import sys
 import argparse
+import time
 
 sem = threading.Semaphore()
 
@@ -45,12 +46,14 @@ class Compression():
             sem.acquire()
             input_file = "temp.temp"
             shutil.copyfile(self._input_file, input_file)
+        self._time_start = time.time()
         self._process = subprocess.Popen(
             [self.format_command(input_file)],
             shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
+        self._time_end = time.time()
         self._execed = True
         self.return_code = self._process.wait()
         self.stdout, self.stderr = self._process.communicate()
@@ -68,7 +71,7 @@ class Compression():
     def __str__(self):
         if self._execed:
             c = self.command.split(' ')[0]
-            return f"{c},{self.output_file},{self.fs},{self.return_code},"
+            return f"{c},{self.output_file},{self.fs},{self.return_code},{self._time_end-self._time_start},"
         return f"The command '{self.format_command(self._input_file)}' has not been run yet"
 
 def generate_compression(input_file):
@@ -109,8 +112,8 @@ def main(argv):
     args = create_parser().parse_args(argv[1:])
     if not args.file:
         raise ValueError("No file provided, see --help")
-    print("algo,command,file size,return code")
-    print(f"none,'none',{os.path.getsize(args.file)},0,")
+    print("algo,command,file size,return code,exec time,")
+    print(f"none,none,{os.path.getsize(args.file)},0,0,")
     run(args.file, count=int(args.count))
 
 if __name__ == "__main__":
